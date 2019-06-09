@@ -15,12 +15,27 @@
 - Lutizemberg Oliveira;
 - Waldeck Belo;
 
+### Atribuições
+• Adriana/Luciano/Elilson: Artigo;
+
+• Adriana/Waldeck: Arduino;
+
+• Lutizembergue/Bruno: Camisas (impressão);
+
+• Julyson: Suporte do Banner;
+
+• Christian/FelipeDoCarmo/Julyson: Maquete de plástico, plantas, adubo, terra preta (seca e úmida).
+
+• Keneson: -
+
 ### Introdução
-- Projeto de arduino utilizado sensores DHT22 e YL-69 para o evento INOVATECH no 6º período no curso de graduação em Sistemas de Informação na FAMETRO
-- Projeto utilizando Notepad++ e importado para eclipse;
+- Projeto de arduino utilizado sensores DHT22 (temperatura e umidade) e YL-69 (higrômetro) para o evento INOVATECH no 6º período no curso de graduação em Sistemas de Informação na FAMETRO;
+- Projeto programado inicialmente via Notepad++, importado para o eclipse e posteriormente sincronizado com o GIT;
 ###
-- WAMP (Version 3.1.9 - 64bit) com virtualhost solotech ou Apache v2.4
-- HTML, CSS, Javascript
+- Estrutura: WAMP (Version 3.1.9 - 64bit) (http://www.wampserver.com/en/) com virtualhost "solotech" ou Apache v2.4
+- Desenvolvimento: HTML, CSS, Javascript (https://www.w3schools.com/)
+- Frameworks: Bootstrap 4.3.1 (Caso haja necessidade de utilização)
+- Arduino IDE 1.8.9 (https://www.arduino.cc/en/Main/Software)
 ___________________________________________________________
 ##
 ### Git
