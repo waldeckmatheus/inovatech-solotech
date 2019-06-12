@@ -10,13 +10,14 @@
 - Sistemas de Informação
 
 ### Coordenador do curso
-- Prof. Msc. Rilmar Pereira Gomes
+- Prof. Msc. RILMAR PEREIRA GOMES;
 
 ### Orientadores/Disponibilizadores de tempo de aula para o projeto
-- Prof. Esp. MARCELO ALVES DA CRUZ;
+- Prof. Msc. BRUNO PEREIRA GONÇALVES;
 - Prof. Msc. RONEI NUNES RIBEIRO;
-- Prof. Esp. ODAIR CRISTIANO ABREU DA SILVA; 
 - Prof. Esp. JEAN MARK LOBO DE OLIVEIRA;
+- Prof. Esp. MARCELO ALVES DA CRUZ;
+- Prof. Esp. ODAIR CRISTIANO ABREU DA SILVA; 
 
 ### Equipe
 - Adriana Karla;
