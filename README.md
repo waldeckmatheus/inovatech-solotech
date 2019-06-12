@@ -10,7 +10,7 @@
 - Sistemas de Informação
 
 ### Coordenador do curso
-- Prof. Msc. RILMAR PEREIRA GOMES;
+- Prof. MSc. RILMAR PEREIRA GOMES;
 
 ### Orientadores/Disponibilizadores de tempo de aula para o projeto
 - Prof. MSc. BRUNO PEREIRA GONÇALVES;
