@@ -35,7 +35,7 @@
 - Estrutura: WAMP (Version 3.1.9 - 64bit) (http://www.wampserver.com/en/) com virtualhost "solotech" ou Apache v2.4
 - Desenvolvimento: HTML, CSS, Javascript (https://www.w3schools.com/)
 - Frameworks: Bootstrap 4.3.1 (https://getbootstrap.com/docs/4.3/getting-started/download/) (Caso haja necessidade de utilização)
-- Arduino IDE 1.8.9 (https://www.arduino.cc/en/Main/Software)
+- Arduino IDE 1.8.9 (https://www.arduino.cc/en/Main/Software) (É necessário também DRIVER USB para comunicação entre os dispositivos)
 - Notepad++ v7.7 (https://notepad-plus-plus.org/download/v7.7.html)
 ___________________________________________________________
 ##
