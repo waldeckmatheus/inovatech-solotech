@@ -3,6 +3,21 @@
 ## Título
 - Automação no controle da umidade do solo com sistema integrado em arduino
 
+### Instituição
+- FAMETRO (Faculdade Metropolitana de Manaus)
+
+### Curso
+- Sistemas de Informação
+
+### Coordenador do curso
+- Prof. Msc. Rilmar Pereira Gomes
+
+### Orientadores/Disponibilizadores de tempo de aula para o projeto
+- Prof. Esp. MARCELO ALVES DA CRUZ;
+- Prof. Msc. RONEI NUNES RIBEIRO;
+- Prof. Esp. ODAIR CRISTIANO ABREU DA SILVA; 
+- Prof. Esp. JEAN MARK LOBO DE OLIVEIRA;
+
 ### Equipe
 - Adriana Karla;
 - Bruno Lopes;
