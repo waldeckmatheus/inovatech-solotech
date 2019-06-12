@@ -13,8 +13,8 @@
 - Prof. Msc. RILMAR PEREIRA GOMES;
 
 ### Orientadores/Disponibilizadores de tempo de aula para o projeto
-- Prof. Msc. BRUNO PEREIRA GONÇALVES;
-- Prof. Msc. RONEI NUNES RIBEIRO;
+- Prof. MSc. BRUNO PEREIRA GONÇALVES;
+- Prof. MSc. RONEI NUNES RIBEIRO;
 - Prof. Esp. JEAN MARK LOBO DE OLIVEIRA;
 - Prof. Esp. MARCELO ALVES DA CRUZ;
 - Prof. Esp. ODAIR CRISTIANO ABREU DA SILVA; 
@@ -33,15 +33,10 @@
 
 ### Atribuições
 • Adriana/Luciano/Elilson: Artigo;
-
 • Adriana/Waldeck: Arduino;
-
 • Lutizembergue/Bruno: Camisas (impressão);
-
 • Julyson: Suporte do Banner;
-
 • Christian/FelipeDoCarmo/Julyson: Maquete de plástico, plantas, adubo, terra preta (seca e úmida).
-
 • Keneson: -
 
 ### Introdução
