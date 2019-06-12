@@ -4,9 +4,14 @@
 #include <DHT.h>
 
 //Constants
-#define DHTPIN 7     //Pino utilizado para coletar dados do sensor
+#define P_DHT 7     //Pino utilizado para coletar dados do sensor
 #define DHTTYPE DHT22   // Sensor DHT 22  (AM2302)
-DHT dht(DHTPIN, DHTTYPE); //Inicializador do sensor pino e tipo.
+
+//dados do REL… (Relay module - 1 channel)
+#define P_RM_1 6
+
+//Inicializador DHT
+DHT dht(P_DHT, DHTTYPE); //sensor pino e tipo.
 
 //MAC Address a ser utilizado
 byte mac[] = {
@@ -27,10 +32,17 @@ int chk;
 float umid;  //Dados da umidade
 float temp; //Dados da temperatura
 
+void inicializar(){
+  server.begin();
+  dht.begin();
+
+  pinMode(P_RM_1, OUTPUT); 
+}
+
 void verificacoesIniciais(){
-  //Verifica√ß√£o de exist√™ncia do hardware
+  //VerificaÁ„o de existÍncia do hardware
    if (Ethernet.hardwareStatus() == EthernetNoHardware) {
-    Serial.println("Desculpe, n√£o √© poss√≠vel rodar sem o hardware Ethernet shield.");
+    Serial.println("Desculpe, n„o È possÌvel rodar sem o hardware Ethernet shield.");
     while (true) {
       delay(1);
     }
@@ -43,10 +55,7 @@ void configurarIpMacAddress(){
   // Configura e inicializa
   Ethernet.begin(mac, ip);
 }
-void inicializar(){
-  server.begin();
-  dht.begin();
-}
+
 void setup() {
   Serial.begin(9600);
   while (!Serial) {
@@ -57,15 +66,15 @@ void setup() {
   inicializar();
 }
 void realizarLeituraSensorDHT22(){
-    //Realiza√ß√£o de leitura do DHT22 e atribui√ß√£o nas vari√°veis "umid" e "temp"
+    //RealizaÁ„o de leitura do DHT22 e atribuiÁ„o nas vari·veis "umid" e "temp"
     umid = dht.readHumidity();
     temp= dht.readTemperature();
     
-    //Serial.print("Humidity: ");
-    //Serial.print(umid);
-    //Serial.print(" %, Temp: ");
-    //Serial.print(temp);
-    //Serial.println(" Celsius");
+    Serial.print("Humidity: ");
+    Serial.print(umid);
+    Serial.print(" %, Temp: ");
+    Serial.print(temp);
+    Serial.println(" Celsius");
 }
 void realizarLeituraSensorYl69(){
     //Serial.println("Realizando leitura do sensor yl69: ");
@@ -75,8 +84,8 @@ void realizarLeituraSensorYl69(){
   void adicionarRespostaRequisicao(EthernetClient client, float percentualUmidade){
     client.println("HTTP/1.1 200 OK");
     client.println("Content-Type: text/html");
-    client.println("Connection: close"); // A conex√£o fechar√° ap√≥s completar a resposta
-    //client.println("Refresh: 2"); // Refresh da p√°gina
+    client.println("Connection: close"); // A conex„o fechar· apÛs completar a resposta
+    client.println("Refresh: 5"); // Refresh da p·gina
     client.println();
     client.println("<!DOCTYPE HTML>");
 
@@ -84,7 +93,7 @@ void realizarLeituraSensorYl69(){
     client.print("");
     client.print("  <head>");
     client.print("    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">");
-    client.print("    <link href=\"http://solotech/resources/css/style.css\" rel=\"stylesheet\" type=\"text/css\">");
+    client.print("    <link href=\"http://192.168.0.102/solotech/resources/css/style.css\" rel=\"stylesheet\" type=\"text/css\">");
     client.print("  </head>");
 
     client.print("  <body>");
@@ -95,7 +104,7 @@ void realizarLeituraSensorYl69(){
     client.print("       <div class=\"container-2\">");
     client.print("          Temperatura e umidade no ambiente: ");
     client.print(temp);
-    client.print("(¬∫C) e ");
+    client.print("(∫C) e ");
     client.print(umid);
     client.print("%<br/>");
     client.print("          Umidade no solo: ");
@@ -107,31 +116,39 @@ void realizarLeituraSensorYl69(){
     client.print("        <div class=\"footer\">");
     client.print("          <span><b>Orientadores:</b> <label style=\"color: blue\"> ODAIR CRISTIANO ABREU DA SILVA; RONEI NUNES RIBEIRO;</label></span>");
     client.print("          <h4>Equipe:</h4> ");
-    client.print("<textarea id=\"equipe\" row=\"10\" col=\"10\" value=\"a\" class=\"textarea\" disabled></textarea></li>");
+    client.print("<textarea id=\"equipe\" row=\"10\" col=\"10\" value=\"a\" class=\"textarea\" style=\"width: 50%;\" disabled></textarea></li>");
     client.print("        </div>");
     client.print("        <input id=\"yl69data\" type=\"text\" value=\"");
     client.print(yl69dataSensor);
     client.print("\">");
-    client.print("<script src=\"http://solotech/resources/js/script.js\"></script>");
+    client.print("<script src=\"http://192.168.0.102/solotech/resources/js/script.js\"></script>");
     client.print("</body></html>");
   }
 void loop() {
-  //Aguardando conex√µes
+  //Aguardando conexıes
+  realizarLeituraSensorYl69();
+  if (yl69dataSensor<750){
+    digitalWrite(P_RM_1,LOW);
+  }
+  else{
+    digitalWrite(P_RM_1,HIGH);
+  }
   EthernetClient client = server.available();
   if (client) {
     Serial.println("Cliente conectado.");
-    // A requisi√ß√£o HTTP termina com uma linha em branco
+    // A requisiÁ„o HTTP termina com uma linha em branco
     boolean currentLineIsBlank = true;
     while (client.connected()) {
       if (client.available()) {
         
         char c = client.read();
         
-        //Verifica se leitura chegou ao fim por meio da verifica√ß√£o da quebra de linha
+        //Verifica se leitura chegou ao fim por meio da verificaÁ„o da quebra de linha
         if (c == '\n' && currentLineIsBlank) {
-          realizarLeituraSensorYl69();
+          
           percentualUmidade = 100.0 - (yl69dataSensor / 1024.0) * 100;
           realizarLeituraSensorDHT22();
+
           adicionarRespostaRequisicao(client,percentualUmidade);
           break;
         }
@@ -144,7 +161,7 @@ void loop() {
         }
       }
     }
-    //Delay para realizar pr√≥xima verifica√ß√£o
+    //Delay para realizar prÛxima verificaÁ„o
     delay(1);
     // close the connection:
     client.stop();
