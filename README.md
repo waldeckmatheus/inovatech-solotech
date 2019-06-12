@@ -29,7 +29,7 @@
 • Keneson: -
 
 ### Introdução
-- Projeto de arduino utilizado sensores DHT22 (temperatura e umidade) e YL-69 (higrômetro) para o evento INOVATECH no 6º período no curso de graduação em Sistemas de Informação na FAMETRO;
+- Projeto de arduino utilizando sensores DHT22 (temperatura e umidade), YL-69 (higrômetro) e RM (Módulo Relé - 1 Canal) para o evento INOVATECH no 6º período no curso de graduação em Sistemas de Informação na FAMETRO;
 - Projeto programado inicialmente via Notepad++, importado para o eclipse e posteriormente sincronizado com o GIT;
 ###
 - Estrutura: WAMP (Version 3.1.9 - 64bit) (http://www.wampserver.com/en/) com virtualhost "solotech" ou Apache v2.4
