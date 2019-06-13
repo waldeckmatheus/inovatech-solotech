@@ -7,7 +7,7 @@
 #define P_DHT 7     //Pino utilizado para coletar dados do sensor
 #define DHTTYPE DHT22   // Sensor DHT 22  (AM2302)
 
-//dados do REL… (Relay module - 1 channel)
+//dados do REL√â (Relay module - 1 channel)
 #define P_RM_1 6
 
 //Inicializador DHT
@@ -15,7 +15,7 @@ DHT dht(P_DHT, DHTTYPE); //sensor pino e tipo.
 
 //MAC Address a ser utilizado
 byte mac[] = {
-  0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xEF
+  0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xEC
 };
 //IP a ser utilizado
 IPAddress ip(192, 168, 0, 121);
@@ -28,32 +28,46 @@ int yl69dataSensor;
 float percentualUmidade;
  
 //Dados do sensor DHT22
-int chk;
 float umid;  //Dados da umidade
 float temp; //Dados da temperatura
 
 void inicializar(){
+  //Serial.print("Inicializando server...\n");
   server.begin();
+  //Serial.print("Server iniciado.\n");
+  //Serial.print("Inicializando sensor DHT22.\n");
   dht.begin();
-
+  //Serial.print("Sensor DHT22 inicializado.\n");
+  
   pinMode(P_RM_1, OUTPUT); 
 }
 
 void verificacoesIniciais(){
-  //VerificaÁ„o de existÍncia do hardware
+  //Verifica√ß√£o de exist√™ncia do hardware
+  //Serial.print("Verificando hardware ethernet...\n");
    if (Ethernet.hardwareStatus() == EthernetNoHardware) {
-    Serial.println("Desculpe, n„o È possÌvel rodar sem o hardware Ethernet shield.");
+    //Serial.print("Desculpe, n√£o √© poss√≠vel rodar sem o hardware Ethernet shield.\n");
     while (true) {
       delay(1);
     }
+    
   }
+  else {
+    //Serial.print("Hardware ethernet OK...\n");
+  }
+  //Serial.print("Verificando LINK...\n");
   if (Ethernet.linkStatus() == LinkOFF) {
-    Serial.println("Verifique o cabeamento.");
+    //Serial.print("Verifique o cabeamento.\n");
+  }
+  else {
+    //Serial.print("Link OK.");
   }
 }
 void configurarIpMacAddress(){
   // Configura e inicializa
+  //Serial.print("Inicializando module Ethernet...\n");
   Ethernet.begin(mac, ip);
+  //Serial.print("Module Ethernet inicializado.\n");
 }
 
 void setup() {
@@ -66,26 +80,29 @@ void setup() {
   inicializar();
 }
 void realizarLeituraSensorDHT22(){
-    //RealizaÁ„o de leitura do DHT22 e atribuiÁ„o nas vari·veis "umid" e "temp"
+    //Realiza√ß√£o de leitura do DHT22 e atribui√ß√£o nas vari√°veis "umid" e "temp"
+    //Serial.print("Realizando leitura do sensor DHT22...\n");
     umid = dht.readHumidity();
     temp= dht.readTemperature();
     
-    Serial.print("Humidity: ");
-    Serial.print(umid);
-    Serial.print(" %, Temp: ");
-    Serial.print(temp);
-    Serial.println(" Celsius");
+    //Serial.print("Humidity: ");
+    //Serial.print(umid);
+    //Serial.print(" %, Temp: ");
+    //Serial.print(temp);
+    //Serial.print(" Celsius\n");
 }
 void realizarLeituraSensorYl69(){
-    //Serial.println("Realizando leitura do sensor yl69: ");
+    //Serial.print("Realizando leitura do sensor yl69: \n");
+    //Serial.print("Realizando leitura do sensor YL-69...");
     yl69dataSensor = analogRead(A0);
-    //Serial.println(yl69dataSensor);
+    //Serial.print(yl69dataSensor);
   }
   void adicionarRespostaRequisicao(EthernetClient client, float percentualUmidade){
+    //Serial.print("Adicionando resposta da requisi√ß√£o...\n");
     client.println("HTTP/1.1 200 OK");
     client.println("Content-Type: text/html");
-    client.println("Connection: close"); // A conex„o fechar· apÛs completar a resposta
-    client.println("Refresh: 5"); // Refresh da p·gina
+    client.println("Connection: close"); // A conex√£o fechar√° ap√≥s completar a resposta
+    client.println("Refresh: 5"); // Refresh da p√°gina
     client.println();
     client.println("<!DOCTYPE HTML>");
 
@@ -95,7 +112,6 @@ void realizarLeituraSensorYl69(){
     client.print("    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">");
     client.print("    <link href=\"http://192.168.0.102/solotech/resources/css/style.css\" rel=\"stylesheet\" type=\"text/css\">");
     client.print("  </head>");
-
     client.print("  <body>");
     client.print("    <div class=\"container-1\">");
     client.print("       <div class=\"header\">");
@@ -104,7 +120,7 @@ void realizarLeituraSensorYl69(){
     client.print("       <div class=\"container-2\">");
     client.print("          Temperatura e umidade no ambiente: ");
     client.print(temp);
-    client.print("(∫C) e ");
+    client.print("(¬∫C) e ");
     client.print(umid);
     client.print("%<br/>");
     client.print("          Umidade no solo: ");
@@ -114,9 +130,9 @@ void realizarLeituraSensorYl69(){
     client.print("        </div>");
     client.print("        <br />");
     client.print("        <div class=\"footer\">");
-    client.print("          <span><b>Orientadores:</b> <label style=\"color: blue\"> ODAIR CRISTIANO ABREU DA SILVA; RONEI NUNES RIBEIRO;</label></span>");
+    client.print("          <span><b>Orientadores:</b> <label style=\"color: blue\" id=\"orientadores\"></label></span>");
     client.print("          <h4>Equipe:</h4> ");
-    client.print("<textarea id=\"equipe\" row=\"10\" col=\"10\" value=\"a\" class=\"textarea\" style=\"width: 50%;\" disabled></textarea></li>");
+    client.print("<textarea id=\"equipe\" row=\"10\" col=\"10\" value=\"a\" class=\"textarea\" disabled></textarea></li>");
     client.print("        </div>");
     client.print("        <input id=\"yl69data\" type=\"text\" value=\"");
     client.print(yl69dataSensor);
@@ -125,29 +141,38 @@ void realizarLeituraSensorYl69(){
     client.print("</body></html>");
   }
 void loop() {
-  //Aguardando conexıes
-  realizarLeituraSensorYl69();
-  if (yl69dataSensor<750){
-    digitalWrite(P_RM_1,LOW);
-  }
-  else{
-    digitalWrite(P_RM_1,HIGH);
-  }
+  //Aguardando conex√µes
   EthernetClient client = server.available();
-  if (client) {
-    Serial.println("Cliente conectado.");
-    // A requisiÁ„o HTTP termina com uma linha em branco
+    if (client) {
+     realizarLeituraSensorYl69();
+     realizarLeituraSensorDHT22();
+     if (yl69dataSensor<750){
+          digitalWrite(P_RM_1,LOW);
+        }
+        else{
+          digitalWrite(P_RM_1,HIGH);
+      }
+    //Serial.print("Cliente conectado.");
+    // A requisi√ß√£o HTTP termina com uma linha em branco
     boolean currentLineIsBlank = true;
     while (client.connected()) {
       if (client.available()) {
         
         char c = client.read();
         
-        //Verifica se leitura chegou ao fim por meio da verificaÁ„o da quebra de linha
+        //Verifica se leitura chegou ao fim por meio da verifica√ß√£o da quebra de linha
         if (c == '\n' && currentLineIsBlank) {
-          
+
+          //100% <-> 1024
+          //x    <-> 750
+          //x=750*100/1024
+          //x = 73.2421875‚Ä¨ % (seco)
+          //100.0%-73.2421875 = 26.7578125‚Ä¨% (√∫mido)
+
+          //Serial.print("Calculando percentual de umidade do solo...\n");
           percentualUmidade = 100.0 - (yl69dataSensor / 1024.0) * 100;
-          realizarLeituraSensorDHT22();
+          String percentualUmidadeSoloTxt = "Percentual de umidade do solo: "+String(percentualUmidade)+"\n";
+          //Serial.print(percentualUmidadeSoloTxt);
 
           adicionarRespostaRequisicao(client,percentualUmidade);
           break;
@@ -161,10 +186,10 @@ void loop() {
         }
       }
     }
-    //Delay para realizar prÛxima verificaÁ„o
+    //Delay para realizar pr√≥xima verifica√ß√£o
     delay(1);
     // close the connection:
     client.stop();
-    //Serial.println("client disconnected");
+    //Serial.print("client disconnected");
   }
 }

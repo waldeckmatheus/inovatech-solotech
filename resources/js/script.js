@@ -11,32 +11,37 @@ if (historico == null)
 
 var equipe= "Adriana Karla;\nBruno Lopes;\nChristian Rodrigues;\nElilson Leal;\nFelipe do Carmo;\nJulyson Batista;\nKeneson Liniker;\nLuciano Cabral;\nLutizemberg Oliveira;\nWaldeck Belo;";
 
+let orientadoresElement = document.getElementById("orientadores");
 let equipeElement = document.getElementById("equipe");
 let mensagemElement = document.getElementById("mensagem");
 let yl69dataElement = document.getElementById("yl69data");
 
-ajaxMain();
+// ajaxMain();
+setarDadosOrientadores(orientadoresElement);
 informarSePlantaPrecisaAgua(mensagemElement,yl69dataElement);
 setarDadosEquipe(equipeElement);
 adicionarEventos(equipeElement);
 
-function ajaxMain() {
-	var r = new XMLHttpRequest(); r.open("GET", "http://solotech/resources/main.html", true); 
-	r.onreadystatechange = function () { 
-	if (r.readyState != 4 || r.status != 200) 
-		return; 
+// function ajaxMain() {
+	// var r = new XMLHttpRequest(); r.open("GET", "http://192.168.0.102/solotech/resources/main.html", true); 
+	// r.onreadystatechange = function () { 
+	// if (r.readyState != 4 || r.status != 200) 
+		// return; 
 
-		var currentInterval = setInterval(()=>{
-			let conteudoElement = document.getElementById("conteudo");
-			conteudoElement.innerHTML = r.responseText;
-			clearInterval(currentInterval);
-		},500);
-		console.log("Response: ",r.responseText);
-	}; 
+		// var currentInterval = setInterval(()=>{
+			// let conteudoElement = document.getElementById("conteudo");
+			// conteudoElement.innerHTML = r.responseText;
+			// clearInterval(currentInterval);
+		// },500);
+		// console.log("Response: ",r.responseText);
+	// }; 
 
-	r.send();
+	// r.send();
+// }
+
+function setarDadosOrientadores(orientadoresElement){
+	orientadoresElement.innerText="Prof. MSc. RONEI NUNES RIBEIRO; Prof. Esp. ODAIR CRISTIANO ABREU DA SILVA; "
 }
-
 function informarSePlantaPrecisaAgua(mensagemEl,yl69dataEl){
 	let msg = null;
 	if (yl69dataElement.value < 750)
@@ -45,6 +50,9 @@ function informarSePlantaPrecisaAgua(mensagemEl,yl69dataEl){
 		msg = "A planta precisa de água.";
 	mensagemElement.innerText = msg;
 	let registro = [new Date().toLocaleString("pt-BR",{timeZone:'America/Manaus'}+";"), msg+" ("+yl69dataElement.value+");"];
+	gravarNoHistorico(registro);
+}
+function gravarNoHistorico(registro){
 	historico.push(registro);
 	soloTechStorage.setItem("historico", JSON.stringify(historico));
 	console.log("Historico: ",historico);
@@ -54,7 +62,7 @@ function setarDadosEquipe(equipeElement){
 	equipeElement.style.height = (equipeElement.scrollHeight)+"px";
 }
 function adicionarEventos(equipeElement){
-	equipeElement.addEventListener("mouseover", function(){
+	equipeElement.addEventListener("click", function(){
 		alert("Equipe: \n"+equipe.replace(new RegExp(";",'g')," "));
 
 		let strHist = "";
